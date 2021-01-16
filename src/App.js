@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Navigation from './components/Navigation/Navigation';
-import Logo from './components/Logo/Logo';
 import Rank from './components/Rank/Rank';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
@@ -12,7 +11,7 @@ import './App.css';
 import myParameters from './particlesjs-config.json';
 
 const url = "https://facebrain-server.herokuapp.com";
-// const url = "http://localhost:3001";
+//const url = "http://localhost:3001";
 
 const initialState = {
   input: '',
@@ -53,6 +52,7 @@ class App extends Component {
   onInputChange = (event) => {
     if (event.target.files) {
       this.setState({ loading: true });
+      document.getElementById('linkform').value = '';
       const files = Array.from(event.target.files);
       const formData = new FormData();
       files.forEach((file, i) => {
@@ -75,6 +75,8 @@ class App extends Component {
 
   onInputClear = () => {
     this.setState({ input: '', box: [{}], disableFind: false, loading: false });
+    document.getElementById('linkform').value = '';
+    document.getElementById('file').value = '';
   }
 
   onButtonSubmit = () => {
@@ -164,19 +166,17 @@ class App extends Component {
         {isSignedIn
           ? <div>
               <div className="logo-rank">
-                <Logo />
                 <Rank name={user.name} entries={user.entries} />
               </div>
+              <ImageLinkForm
+                onInputChange={this.onInputChange} 
+                onButtonSubmit={this.onButtonSubmit} 
+                disableFind={disableFind}
+                onInputClear={this.onInputClear}
+              />
               {
                 loading ? <Loading /> :
                 <>
-                  <ImageLinkForm 
-                    input={input}
-                    onInputChange={this.onInputChange} 
-                    onButtonSubmit={this.onButtonSubmit} 
-                    disableFind={disableFind}
-                    onInputClear={this.onInputClear}
-                  />
                   {input && <FaceRecognition box={box} imageUrl={input} />}
                 </>
               }

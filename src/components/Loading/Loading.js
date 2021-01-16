@@ -1,11 +1,9 @@
 import React from 'react';
-import loading from './loading.gif';
+import './loading.css';
 
 const Loading = () => {
 	return (
-		<div className="">
-			<img style={{paddingTop: '5px'}} src={loading} alt="loading"/>
-		</div>
+		<div class="lds-ellipsis mt3 center"><div></div><div></div><div></div><div></div></div>
 	);
 }
 
